@@ -1,15 +1,14 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <router-view></router-view>
+    <app-header />
+    <router-view />
   </div>
 </template>
+
 <script>
-import appHeader from './components/header.vue';
+import AppHeader from './components/App-Header.vue';
 export default {
-  components: {
-    'app-header': appHeader,
-  },
+  components: { 'app-header': AppHeader },
   name: 'app',
 }
 </script>
@@ -17,14 +16,13 @@ export default {
 <style>
   #app {
     align-items: center;
-    background-color: lightgrey;
-    color: black;
+    background-color: #262626;
     display: flex;
     flex-direction: column;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     height: 100vh;
     text-align: center;
   }
-  
+
 </style>
 
