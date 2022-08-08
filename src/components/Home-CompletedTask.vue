@@ -21,15 +21,15 @@
       <div class="mdc-checkbox__ripple" />
     </div>
     <p class="complete-task-title">
-      {{donetask.title}}
+      {{donetask.Title}}
     </p>
     &nbsp;
     <p class="complete-task-author">
-      Completed by {{donetask.author}}
+      Completed by {{donetask.Assignee}}
     </p>
     &nbsp;
     <p class="complete-task-date">
-      on {{donetask.date}}
+      on {{donetask.AssignedDate}}
     </p>
   </div>  
 </template>
@@ -52,13 +52,15 @@ export default {
   .complete-task-title {
     color: black;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 1.2rem;
+    line-height: 3;
     text-decoration-line: line-through;
   }
 
   .complete-task-author, .complete-task-date {
     color: slategray;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    line-height: 3.6;
   }
 
 </style>

@@ -36,16 +36,20 @@
     margin: 1rem;
     text-align-last: justify;
   }
+  
   .add-task-list, .title-list {
     display: inline-block;
   }
+  
   .add-task-list {
     margin: 0 3rem;
   }
+  
   .navbar-header, .navbar-link {
     padding: 0.5rem;
     text-decoration: none;
   }
+  
   .navbar {
     align-items: center;
     background: #262626;
@@ -53,19 +57,22 @@
     height: 3rem;  
     width: 100%;
   }
+  
   .navbar-link {
     color: black;
     vertical-align: super;
   }
-  .container {
+  
+.container {
     width: 100%;
   }
   
   .navbar-header {
     color: white;
     font-family: sans-serif;
-    font-size: 1.4rem;
+    font-size: 2.5rem;
     font-weight: 700;
+    margin-top: 3rem;
     text-decoration: none;
   }
 
@@ -74,9 +81,11 @@
   }
 
   .mdc-button {
-    height: 100%;
-    margin-bottom: 0.4rem;
+    height: 3rem;
+    font-size: 1rem;
+    margin-bottom: 2.4rem;
     padding: 0;
+    width: 10rem;
   }
 
 </style>

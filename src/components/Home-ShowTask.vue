@@ -25,9 +25,12 @@
           <div class="mdc-checkbox__ripple" />
         </div>
         <label class="task-checkbox"> 
-          <p class="task-title">{{task.title}}</p>
-          <p class="task-author">{{task.author}}</p>
-          <p class="task-date">{{task.date}}</p>
+          <p class="task-title">{{task.Title}}</p>
+          <p class="task-author">{{task.Assignee}}</p>
+          <p class="task-date">{{task.AssignedDate}}</p>
+          <i 
+          class="glyphicon glyphicon-trash" 
+          @click.prevent="deleted" />
         </label>
       </div>
     </div>  
@@ -35,6 +38,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "showtask",
   props: {
@@ -49,6 +53,16 @@ export default {
     check(e) {  
       this.$emit('taskcompleted', this.task);
     },
+    deleted() {
+      const url = 'https://b3yjil01ik.execute-api.ap-south-1.amazonaws.com/v2/task/';
+      return axios.delete(`${url}${this.task.Department}/${this.task.AssignedDate}`)
+        .then((res) =>{
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err);
+        }) ;
+    },
   },
 }
 </script>
@@ -56,10 +70,12 @@ export default {
 <style>
   .department-div {
     border-bottom: inset;
-    display: flex;
+    text-align-last: left;
+    width: 100%;
   }
 
   .task-title, .task-author, .task-date {
+    font-size: 1.3rem;
     margin: 0.5rem;
   }
 
@@ -72,7 +88,20 @@ export default {
   }
 
   .task-checkbox {
-    display: flex;
+    display: -webkit-box;
+    width: 80%;
+  }
+
+  .glyphicon {
+    font-size: larger;
+    margin-top: 1.3rem;
+    top: 0;
+    writing-mode: vertical-rl;
+  }
+
+  .mdc-form-field {
+    display: -webkit-box;
+    line-height: 2;
   }
 
 </style>
