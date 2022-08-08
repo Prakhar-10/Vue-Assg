@@ -1,6 +1,6 @@
 <template>
   <div id="add-blog" class="add-blog">
-    <h2>Add a New Task</h2>
+    <h2>Add Task</h2>
     <form class="add-form">
       <label>Task Title:</label>
       <label 
@@ -15,7 +15,7 @@
           required>
         <span class="mdc-line-ripple" />
       </label>
-      <label>Assignee:</label>
+      <label class="Assignee-title">Assignee:</label>
       <label 
         class="author-input  mdc-text-field  mdc-text-field--filled  mdc-text-field--no-label">
         <span class="mdc-text-field__ripple" />
@@ -28,8 +28,8 @@
           required>
         <span class="mdc-line-ripple" />
       </label>
+      <p class="department-title">Task Department:</p>
       <div class="departments">
-        <p>Task Department:</p>
         <div class="mdc-form-field">
           <div class="mdc-radio">
             <input 
@@ -37,6 +37,7 @@
               type="radio" 
               id="radio-1" 
               name="radios"  
+              value="IT"
               v-model="department" 
               checked>
             <div class="mdc-radio__background">
@@ -45,7 +46,7 @@
             </div>
             <div class="mdc-radio__ripple" />
           </div>
-          <label for="radio-1">IT</label>
+          <label for="department" class="department-label">IT</label>
         </div>
         <div class="mdc-form-field">
           <div class="mdc-radio">
@@ -54,6 +55,7 @@
               type="radio" 
               id="radio-1" 
               name="radios"  
+              value="New Hire PaperWork"
               v-model="department" 
               checked>
             <div class="mdc-radio__background">
@@ -62,7 +64,7 @@
             </div>
             <div class="mdc-radio__ripple" />
           </div>
-          <label for="radio-1">New Hire PaperWork</label>
+          <label for="department" class="department-label">New Hire PaperWork</label>
         </div>
         <div class="mdc-form-field">
           <div class="mdc-radio">
@@ -71,6 +73,7 @@
               type="radio" 
               id="radio-1" 
               name="radios"  
+              value="Culture Orientation"
               v-model="department" 
               checked>
             <div class="mdc-radio__background">
@@ -79,7 +82,7 @@
             </div>
             <div class="mdc-radio__ripple" />
           </div>
-          <label for="radio-1">Culture Orientation</label>
+          <label for="department" class="department-label">Culture Orientation</label>
         </div>
         <div class="mdc-form-field">
           <div class="mdc-radio">
@@ -88,6 +91,7 @@
               type="radio" 
               id="radio-1" 
               name="radios"  
+              value="HR"
               v-model="department" 
               checked>
             <div class="mdc-radio__background">
@@ -96,7 +100,7 @@
             </div>
             <div class="mdc-radio__ripple" />
           </div>
-          <label for="radio-1">HR</label>
+          <label for="department" class="department-label">HR</label>
         </div>
         <div class="mdc-form-field">
           <div class="mdc-radio">
@@ -105,6 +109,7 @@
               type="radio" 
               id="radio-1" 
               name="radios"  
+              value="other"
               v-model="department" 
               checked>
             <div class="mdc-radio__background">
@@ -113,7 +118,7 @@
             </div>
             <div class="mdc-radio__ripple" />
           </div>
-          <label for="radio-1">other</label>
+          <label for="department" class="department-label">other</label>
         </div>
         <div class="mdc-form-field">
           <div class="mdc-radio">
@@ -122,6 +127,7 @@
               type="radio" 
               id="radio-1" 
               name="radios" 
+              value="Manager"
               v-model="department" 
               checked>
             <div class="mdc-radio__background">
@@ -130,7 +136,7 @@
             </div>
             <div class="mdc-radio__ripple" />
           </div>
-          <label for="radio-1">Manager</label>
+          <label for="department" class="department-label">Manager</label>
         </div>
       </div>
       <label class="date-label">Assigned Date:</label>
@@ -150,6 +156,12 @@
 </template>
 
 <script>
+import Vue from 'Vue';
+import axios from 'axios';
+import vueAxios from 'vue-axios';
+
+Vue.use(vueAxios,axios);
+
 export default {
   data() {
     return {
@@ -163,21 +175,19 @@ export default {
   methods: {
     submit() {
       let task = {
-        department: this.department,
-        title: this.title,
-        author: this.author,
-        date: this.date,
+        Department: this.department,
+        Title: this.title,
+        Assignee: this.author,
+        AssignedDate: this.date,
       }
-      if(localStorage.tasks) {
-        this.tasks = JSON.parse(localStorage.tasks);
-      }
-      this.tasks.push(task);
-      localStorage.setItem('tasks', JSON.stringify(this.tasks));
-      this.title = '';
-      this.author = '';
-      this.department = '';
-      this.date = '';
-      this.$router.push('/');
+      task = JSON.stringify(task);
+      Vue.axios.post('https://b3yjil01ik.execute-api.ap-south-1.amazonaws.com/v2/task',task)
+        .then((res) =>{
+          this.$router.push({name: 'Home'});
+        }) 
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 }
@@ -189,33 +199,52 @@ export default {
     border-style: groove;
     border-top-color: red;
     border-top-width: thick;
+    height: 48rem;
+    margin-top: 1rem;
     padding: 0.5rem;
   }
   .add-form {
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
+  }
+  .mdc-form-field {
+    font-size: 1.2rem;
+    white-space: pre;
+  }
+  .departments {
+    display: flex;
+    width: 100%;
   }
   .date-input {
     align-self: center;
     border-style: inset;
-    height: 1.5rem;
+    height: 2.5rem;
     margin: 1rem;
     width: 15rem;
   }
-
   .mdc-button {
     border-color: black;
-    margin: 0 17rem;
+    margin: 1rem 24rem;
   }
-
   .date-label {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
-
   .title-input, .author-input {
     align-self: center;
-    margin: 1rem 0rem;
+    margin: 0.5rem 0rem;
     width: max-content;
+  }
+  .department-title {
+    font-weight: bold;
+    margin: 1rem 0rem;
+  }
+  .Assignee-title {
+    margin: 1rem 0rem;
+  }
+  
+  .department-label {
+    margin-top: 0.6rem;
   }
   
 </style>

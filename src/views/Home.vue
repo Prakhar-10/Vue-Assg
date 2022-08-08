@@ -25,6 +25,12 @@
 <script>
 import CompletedTask from "../components/Home-CompletedTask.vue";
 import ShowTask from "../components/Home-ShowTask.vue";
+import Vue from 'Vue';
+import axios from 'axios';
+import vueAxios from 'vue-axios';
+
+Vue.use(vueAxios,axios);
+
 export default {
   name: "Home",
   components: {
@@ -47,10 +53,17 @@ export default {
     }
   },
   created: function() {
-    this.tasks = JSON.parse(localStorage.getItem('tasks'));
-    for(let i=0; i<this.tasks.length; i++) {
-      this.Alltasks[this.tasks[i].department].push(this.tasks[i]);
-    }
+    Vue.axios.get('https://b3yjil01ik.execute-api.ap-south-1.amazonaws.com/v2/task')
+      .then((resp) => {
+        console.log(resp);
+        for(let i=0; i<resp.data.length; i++) {
+          this.tasks.push(resp.data[i]);
+        }
+
+        for(let i=0; i<this.tasks.length; i++) {
+          this.Alltasks[this.tasks[i].Department].push(this.tasks[i]);
+        }
+      });
   },
   methods: {
     addtask(task) {
@@ -75,7 +88,7 @@ export default {
   .department-title {
     background: #262626;
     color: white;
-    font-size: 1.1rem;
+    font-size: 2rem;
     margin: 0rem;
     text-align: justify;
     width: max-content;
